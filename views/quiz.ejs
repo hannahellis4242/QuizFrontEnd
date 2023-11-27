@@ -7,7 +7,23 @@
     <header>Question <%= index+1 %></header>
     <form method="post" action="/quiz/<%= index %>">
       <section><%= question.text %></section>
-      <ul></ul>
+      <ul>
+        <ul>
+          <% question.answers.forEach(({text},i) => { %>
+          <li>
+            <label>
+              <input
+                type="checkbox"
+                name="answers"
+                value="<%= i %>"
+                id="<%= i + 1 %>"
+              />
+              <%= text %>
+            </label>
+          </li>
+          <% }); %>
+        </ul>
+      </ul>
       <button type="submit">Next</button>
     </form>
   </body>
