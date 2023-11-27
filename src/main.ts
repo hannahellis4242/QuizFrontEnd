@@ -4,6 +4,7 @@ import morgan from "morgan";
 import session from "express-session";
 import routes from "./routes/routes";
 import Quiz from "./model/Quiz";
+import TopicList from "./model/TopicsList";
 
 declare module "express-session" {
   interface SessionData {
@@ -21,7 +22,29 @@ app.use(urlencoded({ extended: true }));
 app.use(express.static(join(__dirname, "..", "public")));
 app.use(session({ secret: "secret", resave: false }));
 
-app.use("/", routes);
+const topicList: TopicList = [
+  {
+    topic: "",
+    questions: [
+      {
+        text: "Question 1",
+        answers: [
+          { text: "true", correct: true },
+          { text: "false", correct: false },
+        ],
+      },
+      {
+        text: "Question 2",
+        answers: [
+          { text: "true", correct: false },
+          { text: "false", correct: true },
+        ],
+      },
+    ],
+  },
+];
+
+app.use("/", routes(topicList));
 
 const port = 8080;
 // Start the server

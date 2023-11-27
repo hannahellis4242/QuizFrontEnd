@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('head') %>
+  </head>
+  <body>
+    <header>Question <%= index+1 %></header>
+    <form method="post" action="/quiz/<%= index %>">
+      <section><%= question.text %></section>
+      <ul></ul>
+      <button type="submit">Next</button>
+    </form>
+  </body>
+</html>
