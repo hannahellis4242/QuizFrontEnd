@@ -20,7 +20,7 @@ app.set("views", join(__dirname, "..", "views"));
 app.use(json());
 app.use(urlencoded({ extended: true }));
 app.use(express.static(join(__dirname, "..", "public")));
-app.use(session({ secret: "secret", resave: false }));
+app.use(session({ secret: "secret", resave: false, saveUninitialized: false }));
 
 const topicList: TopicList = [
   {

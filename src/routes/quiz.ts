@@ -23,6 +23,9 @@ quiz.post("/:num", (req, res) => {
     res.redirect("/done");
     return;
   }
+  const { answers } = req.body;
+  const selected = answers.toSet();
+
   res.redirect(`/quiz/${next}`);
 });
 export default quiz;
