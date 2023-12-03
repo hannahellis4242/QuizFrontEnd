@@ -1,0 +1,18 @@
+section.result {
+  border: 1px solid black;
+  padding: 5px;
+}
+
+section.result section {
+  border: 1px solid gray;
+  margin: 5px;
+  padding: 5px;
+}
+
+section.result section.right {
+  background-color: lightgreen;
+}
+
+section.result section.wrong {
+  background-color: pink;
+}
