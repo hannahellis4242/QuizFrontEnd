@@ -8,10 +8,11 @@ done.get("/", (req, res) => {
     return;
   }
   //mark questions
-  quiz.questions.forEach(
-    ({ answers, correct }) =>
-      (correct = answers.every(({ selected, correct }) => selected === correct))
-  );
+  quiz.questions = quiz.questions.map((x) => ({
+    ...x,
+    correct: x.answers.every(({ selected, correct }) => selected === correct),
+  }));
+  console.log(JSON.stringify(quiz, null, 2));
   res.render("done", { quiz });
 });
 
