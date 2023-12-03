@@ -29,8 +29,10 @@ const topicList: TopicList = [
       {
         text: "Question 1",
         answers: [
-          { text: "true", correct: true },
-          { text: "false", correct: false },
+          { text: "A", correct: true },
+          { text: "B", correct: false },
+          { text: "C", correct: false },
+          { text: "D", correct: false },
         ],
       },
       {

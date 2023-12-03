@@ -11,21 +11,39 @@ quiz.get("/:num", (req, res) => {
   const question = quiz.questions.at(index);
   res.render("quiz", { question, index });
 });
+
+const parseInputs = (inputs: string | object): Set<number> => {
+  if (typeof inputs === "string") {
+    return new Set([parseInt(inputs)]);
+  }
+  return new Set(
+    Object.entries(inputs)
+      .map(([_, v]) => v)
+      .map((x) => parseInt(x))
+  );
+};
+
 quiz.post("/:num", (req, res) => {
   const { quiz } = req.session;
   if (!quiz) {
     res.redirect("/error");
     return;
   }
+  const current = parseInt(req.params.num);
   //collect selected here and update quiz
-  const next = parseInt(req.params.num) + 1;
+  console.log("input type :", typeof req.body.inputs);
+  const selectedSet = parseInputs(req.body.inputs);
+  const currentQuestion = quiz.questions[current];
+  currentQuestion.answers = currentQuestion.answers.map((x, index) => ({
+    ...x,
+    selected: selectedSet.has(index),
+  }));
+  console.log(JSON.stringify(quiz, null, 2));
+  const next = current + 1;
   if (next === quiz.questions.length) {
     res.redirect("/done");
     return;
   }
-  const { answers } = req.body;
-  const selected = answers.toSet();
-
   res.redirect(`/quiz/${next}`);
 });
 export default quiz;

@@ -6,7 +6,10 @@
   <body>
     <header>You have finised the quiz</header>
     <section>
-      <p>Your score was <%= correct %> out of <%= num %></p>
+      <p>
+        Your score was <%= quiz.questions.filter(({correct})=>correct).length %>
+        out of <%= quiz.questions.length %>
+      </p>
     </section>
   </body>
 </html>

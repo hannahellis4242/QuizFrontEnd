@@ -7,10 +7,12 @@ done.get("/", (req, res) => {
     res.redirect("/error");
     return;
   }
-  const correct = quiz.questions.filter(({ answers }) =>
-    answers.every(({ selected, correct }) => selected === correct)
-  ).length;
-  res.render("done", { correct, num: quiz.questions.length });
+  //mark questions
+  quiz.questions.forEach(
+    ({ answers, correct }) =>
+      (correct = answers.every(({ selected, correct }) => selected === correct))
+  );
+  res.render("done", { quiz });
 });
 
 export default done;
