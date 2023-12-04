@@ -1,0 +1,38 @@
+section.result {
+  border: 1px solid black;
+  padding: 5px;
+}
+
+section.result section {
+  margin: 5px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: lightgray;
+  border: 5px solid;
+}
+
+section.result section.right {
+  border-color: green;
+}
+
+section.result section.wrong {
+  border-color: red;
+}
+
+section.result section header {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+section.result section li {
+  list-style-type: none;
+  background-size: 3rem 3rem;
+}
+
+section.result section li.right {
+  color: green;
+}
+
+section.result section li.box {
+  list-style-type: square;
+}

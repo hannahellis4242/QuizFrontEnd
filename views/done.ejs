@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('head') %>
+  </head>
+  <body>
+    <header>You have finised the quiz</header>
+    <section>
+      <p>
+        Your score was <%= quiz.questions.filter(({correct})=>correct).length %>
+        out of <%= quiz.questions.length %>
+      </p>
+      <section class="result">
+        <% quiz.questions.forEach((question)=> { %>
+        <section class="<%= question.correct ? 'right' : 'wrong' %>">
+          <header><%= question.text %></header>
+          <% question.answers.forEach(({text,selected,correct})=>{ %>
+          <ul>
+            <% const classList = correct ? ['right'] : [];%> <%
+            if(selected){classList.push("box") }%>
+            <li class="<%= classList.join(' ') %>"><%= text %></li>
+          </ul>
+          <% }) %>
+        </section>
+        <% }); %>
+      </section>
+    </section>
+  </body>
+</html>
