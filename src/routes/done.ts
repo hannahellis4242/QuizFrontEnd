@@ -12,7 +12,6 @@ done.get("/", (req, res) => {
     ...x,
     correct: x.answers.every(({ selected, correct }) => selected === correct),
   }));
-  console.log(JSON.stringify(quiz, null, 2));
   res.render("done", { quiz });
 });
 
