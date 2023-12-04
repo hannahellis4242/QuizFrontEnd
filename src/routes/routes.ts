@@ -1,12 +1,12 @@
 import { Router } from "express";
 import start from "./start";
-import TopicList from "../model/TopicsList";
 import quiz from "./quiz";
 import done from "./done";
+import Quiz from "../model/Quiz";
 
-const routes = (list: TopicList) => {
+const routes = (q: Quiz) => {
   const router = Router();
-  router.use("/", start(list));
+  router.use("/", start(q.questions));
   router.use("/quiz", quiz);
   router.use("/done", done);
   return router;

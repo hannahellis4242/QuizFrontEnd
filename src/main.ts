@@ -3,8 +3,10 @@ import { join } from "path";
 import morgan from "morgan";
 import session from "express-session";
 import routes from "./routes/routes";
-import Quiz from "./model/Quiz";
-import TopicList from "./model/TopicsList";
+import Quiz, { QuizSchema } from "./model/Quiz";
+import { readFile } from "fs/promises";
+import { error } from "console";
+import { ZodError } from "zod";
 
 declare module "express-session" {
   interface SessionData {
@@ -22,34 +24,29 @@ app.use(urlencoded({ extended: true }));
 app.use(express.static(join(__dirname, "..", "public")));
 app.use(session({ secret: "secret", resave: false, saveUninitialized: false }));
 
-const topicList: TopicList = [
-  {
-    topic: "",
-    questions: [
-      {
-        text: "Question 1",
-        answers: [
-          { text: "A", correct: true },
-          { text: "B", correct: false },
-          { text: "C", correct: false },
-          { text: "D", correct: false },
-        ],
-      },
-      {
-        text: "Question 2",
-        answers: [
-          { text: "true", correct: false },
-          { text: "false", correct: true },
-        ],
-      },
-    ],
-  },
-];
+const start = (quiz: Quiz) => {
+  app.use("/", routes(quiz));
 
-app.use("/", routes(topicList));
+  const port = 8080;
+  // Start the server
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
+};
 
-const port = 8080;
-// Start the server
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+const showErrors = (error: unknown) => {
+  if (error instanceof ZodError) {
+    return error.issues.map((issue) => issue.message).join("\n");
+  }
+  if (error instanceof Error) {
+    return error.message;
+  }
+  return `${error}`;
+};
+
+readFile(join(__dirname, "..", "questions.json"))
+  .then((data) => data.toString())
+  .then((str) => JSON.parse(str))
+  .then(QuizSchema.parseAsync)
+  .then(start)
+  .catch((error) => console.error(showErrors(error)));

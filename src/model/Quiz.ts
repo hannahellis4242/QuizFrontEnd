@@ -1,20 +1,24 @@
 import { Engine, shuffle } from "random-js";
-import Question from "./Question";
-import TopicList from "./TopicsList";
+import Question, { QuestionSchema } from "./Question";
+import { z } from "zod";
 
-export default interface Quiz {
-  questions: Question[];
-}
+export const QuizSchema = z.object({
+  questions: z.array(QuestionSchema, {
+    description: "the questions in the quiz",
+    required_error: "a list of questions must exist",
+    invalid_type_error: "questions must be an array",
+  }),
+  correct: z.boolean().optional(),
+});
+
+type Quiz = z.infer<typeof QuizSchema>;
+export default Quiz;
 
 export const createQuiz =
   (engine: Engine) =>
-  (list: TopicList) =>
-  (quizTopic: string, size: number): Quiz | undefined => {
-    const topic = list.find(({ topic }) => topic === quizTopic);
-    if (!topic) {
-      return undefined;
-    }
-    const questions = [...topic.questions];
-    shuffle(engine, questions);
-    return { questions: questions.slice(0, size) };
+  (questions: Question[]) =>
+  (size: number): Quiz => {
+    const cp = [...questions];
+    shuffle(engine, cp);
+    return { questions: cp.slice(0, size) };
   };
