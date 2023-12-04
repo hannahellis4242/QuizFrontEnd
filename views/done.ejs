@@ -14,6 +14,13 @@
         <% quiz.questions.forEach((question)=> { %>
         <section class="<%= question.correct ? 'right' : 'wrong' %>">
           <header><%= question.text %></header>
+          <% question.answers.forEach(({text,selected,correct})=>{ %>
+          <ul>
+            <% const classList = correct ? ['right'] : [];%> <%
+            if(selected){classList.push("box") }%>
+            <li class="<%= classList.join(' ') %>"><%= text %></li>
+          </ul>
+          <% }) %>
         </section>
         <% }); %>
       </section>
